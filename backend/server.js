@@ -6,10 +6,10 @@ dotenv.config(); // Load environment variables
 console.log("MongoDB URI:", process.env.MONGODB_URI);
 
 const app = require("./src/App");
-const connectDB = require("./src/config/db");
+//const connectDB = require("./src/config/db");
 //app.use(cors());
 // Connect to MongoDB
-connectDB();
+//connectDB();
 
 const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => {
