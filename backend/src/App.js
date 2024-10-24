@@ -66,6 +66,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/suppliers', supplierRoutes);
 app.use('/api/inventory', inventoryRoutes);
 app.use('/api/logistics', logisticsRoutes);
+app.use('/api/logistics/forecast', logisticsRoutes);
 app.use('/api', emailRoutes);
 // Health Check Route
 app.get("/", (req, res) => {

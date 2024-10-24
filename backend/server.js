@@ -1,6 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config(); // Load environment variables
-
+const cors = require('cors');
+app.use(cors());
 
 console.log("MongoDB URI:", process.env.MONGODB_URI);
 
