@@ -66,10 +66,7 @@ const forecastLogistics = async (req, res, next) => {
 
     const csvContent = csvStringifier.getHeaderString() + csvStringifier.stringifyRecords(dataForCSV);
 
-    // Optionally, you can send the CSV back to the client if needed
-    // res.setHeader('Content-Type', 'text/csv');
-    // res.send(csvContent);
-
+  
     // Prepare data for ARIMA prediction
     const quantities = logisticsData.map(item => item.quantity);
     console.log("Quantities for ARIMA model: ", quantities);
