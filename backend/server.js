@@ -1,13 +1,13 @@
 const dotenv = require("dotenv");
 dotenv.config(); // Load environment variables
-const cors = require('cors');
-app.use(cors());
+// const cors = require('cors');
+
 
 console.log("MongoDB URI:", process.env.MONGODB_URI);
 
 const app = require("./src/App");
 const connectDB = require("./src/config/db");
-
+//app.use(cors());
 // Connect to MongoDB
 connectDB();
 
