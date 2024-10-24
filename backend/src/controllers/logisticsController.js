@@ -1,9 +1,7 @@
 const Logistics = require('../models/logistics');
 const Order = require('../models/order');
-const { createObjectCsvWriter } = require('csv-writer');
-const path = require('path');
+const { createObjectCsvStringifier } = require('csv-writer'); // Use the stringifier version for in-memory CSV
 const ARIMA = require('arima');
-const fs = require('fs');
 
 // Fetch all logistics data
 const getLogistics = async (req, res, next) => {
@@ -40,6 +38,7 @@ const updateShipmentStatus = async (req, res, next) => {
     next(err); // Pass errors to the error handler
   }
 };
+
 const forecastLogistics = async (req, res, next) => {
   const { plant, periods } = req.body;
 
@@ -50,18 +49,8 @@ const forecastLogistics = async (req, res, next) => {
       return res.status(404).json({ message: `No logistics data found for plant ${plant}` });
     }
 
-    const tmpDir = path.join(__dirname, '../tmp');
-
-    // Ensure the tmp directory exists
-    if (!fs.existsSync(tmpDir)) {
-      fs.mkdirSync(tmpDir);
-    }
-
-    const csvFilePath = path.join(tmpDir, 'logistics_data.csv');
-
-    // Write logistics data to CSV dynamically
-    const csvWriter = createObjectCsvWriter({
-      path: csvFilePath,
+    // Use csv-writer's stringifier to generate CSV in-memory
+    const csvStringifier = createObjectCsvStringifier({
       header: [
         { id: 'estimated_delivery', title: 'Date' },
         { id: 'quantity', title: 'Quantity' },
@@ -75,7 +64,11 @@ const forecastLogistics = async (req, res, next) => {
       product_name: item.product_name
     }));
 
-    await csvWriter.writeRecords(dataForCSV); // Generate the CSV file
+    const csvContent = csvStringifier.getHeaderString() + csvStringifier.stringifyRecords(dataForCSV);
+
+    // Optionally, you can send the CSV back to the client if needed
+    // res.setHeader('Content-Type', 'text/csv');
+    // res.send(csvContent);
 
     // Prepare data for ARIMA prediction
     const quantities = logisticsData.map(item => item.quantity);
@@ -113,7 +106,8 @@ const forecastLogistics = async (req, res, next) => {
       forecast: item.quantity // For simplicity, we can use current quantity (could be further customized)
     }));
 
-    res.status(200).json({timeSeriesForecast, itemWiseForecast}); // Send forecast to frontend
+    // Send the forecast to the frontend
+    res.status(200).json({ timeSeriesForecast, itemWiseForecast });
   } catch (err) {
     console.error('Error generating forecast:', err);
     if (!res.headersSent) {
