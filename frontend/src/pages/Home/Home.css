@@ -99,6 +99,7 @@ h2{
 .get-started-btn {
    
     margin-top: 10px;
+    margin-bottom: 20px;
     background-color: yellowgreen; /* Green background */
     color: white; /* White text */
     padding: 12px 24px; /* Padding for the button */

@@ -125,7 +125,7 @@ const ECommerce = () => {
         {/* Supplier Performance Card (dummy example) */}
         <CardDataStats title="Supplier Performance" total="92%" rate="0.95%" levelDown>
           <svg
-            className="fill-green dark:fill-white"
+            className="fill-primary dark:fill-white"
             width="22"
             height="18"
             viewBox="0 0 22 18"

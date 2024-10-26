@@ -15,14 +15,13 @@ const Orders = () => {
   ];
 
   const [newOrder, setNewOrder] = useState({
-    product: products[0], // Default to the first product in the list
+    product: products[0],
     quantity: 1,
     date: '',
     destination: '',
   });
 
   useEffect(() => {
-    // Fetch orders from the backend API
     const fetchOrders = async () => {
       try {
         const response = await axios.get('https://supplychain-hyeo-apurvas-projects-a5f1cbec.vercel.app/api/orders');
@@ -45,9 +44,7 @@ const Orders = () => {
   const handleCreateOrder = async (e) => {
     e.preventDefault();
     try {
-      // Create new order (status defaults to "Processing")
       await axios.post('https://supplychain-hyeo-apurvas-projects-a5f1cbec.vercel.app/api/orders', newOrder);
-      // Re-fetch orders after adding a new one
       const updatedOrders = await axios.get('https://supplychain-hyeo-apurvas-projects-a5f1cbec.vercel.app/api/orders');
       setOrders(updatedOrders.data);
       setSuccessMessage('Order added successfully!');
@@ -62,8 +59,7 @@ const Orders = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div style={{ padding: '20px' }}>
-      
+    <div style={containerStyle}>
       {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
       
       {/* Order Creation Form */}
@@ -129,45 +125,53 @@ const Orders = () => {
       </form>
 
       {/* Order Table */}
-      <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
-        <thead>
-          <tr>
-            <th style={headerStyle}>Order ID</th>
-            <th style={headerStyle}>Product</th>
-            <th style={headerStyle}>Quantity</th>
-            <th style={headerStyle}>Date</th>
-            <th style={headerStyle}>Status</th>
-            <th style={headerStyle}>Destination</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((order) => (
-            <tr key={order._id} style={{ borderBottom: '1px solid #ddd' }}>
-              <td style={cellStyle}>{order.order_id}</td>
-              <td style={cellStyle}>{order.product}</td>
-              <td style={cellStyle}>{order.quantity}</td>
-              <td style={cellStyle}>{order.date}</td>
-              <td style={cellStyle}>
-                <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                  order.status.toLowerCase() === 'delivered' ? 'bg-blue-100 text-blue-800' :
-                  order.status.toLowerCase() === 'shipped' ? 'bg-orange-100 text-orange-800' :
-                  order.status.toLowerCase() === 'processing' ? 'bg-purple-100 text-purple-800' :
-                  order.status.toLowerCase() === 'in transit' ? 'bg-green-100 text-green-800' :
-                  'bg-gray-100 text-gray-800'
-                }`}>
-                  {order.status}
-                </span>
-              </td>
-              <td style={cellStyle}>{order.destination}</td>
+      <div style={tableContainerStyle}>
+        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <thead>
+            <tr>
+              <th style={headerStyle}>Order ID</th>
+              <th style={headerStyle}>Product</th>
+              <th style={headerStyle}>Quantity</th>
+              <th style={headerStyle}>Date</th>
+              <th style={headerStyle}>Status</th>
+              <th style={headerStyle}>Destination</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {orders.map((order) => (
+              <tr key={order._id} style={{ borderBottom: '1px solid #ddd' }}>
+                <td style={cellStyle}>{order.order_id}</td>
+                <td style={cellStyle}>{order.product}</td>
+                <td style={cellStyle}>{order.quantity}</td>
+                <td style={cellStyle}>{order.date}</td>
+                <td style={cellStyle}>
+                  <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                    order.status.toLowerCase() === 'delivered' ? 'bg-blue-100 text-blue-800' :
+                    order.status.toLowerCase() === 'shipped' ? 'bg-orange-100 text-orange-800' :
+                    order.status.toLowerCase() === 'processing' ? 'bg-purple-100 text-purple-800' :
+                    order.status.toLowerCase() === 'in transit' ? 'bg-green-100 text-green-800' :
+                    'bg-gray-100 text-gray-800'
+                  }`}>
+                    {order.status}
+                  </span>
+                </td>
+                <td style={cellStyle}>{order.destination}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
 
-// Styles for table header and cells
+// Styles
+const containerStyle = {
+  padding: '20px',
+  maxWidth: '100%',
+  boxSizing: 'border-box'
+};
+
 const headerStyle = {
   borderBottom: '2px solid #000',
   padding: '10px',
@@ -179,10 +183,15 @@ const cellStyle = {
   textAlign: 'left'
 };
 
-// Styles for the form
+const tableContainerStyle = {
+  overflowX: 'auto', // Makes the table scrollable on smaller screens
+  marginTop: '20px'
+};
+
+// Responsive form style
 const formStyle = {
   display: 'flex',
-  
+  flexWrap: 'wrap',
   gap: '10px',
   marginBottom: '20px'
 };
@@ -190,7 +199,8 @@ const formStyle = {
 const inputContainerStyle = {
   display: 'flex',
   flexDirection: 'column',
-  width:'350px'
+  flex: '1 1 200px', // Allows items to wrap and grow/shrink
+  minWidth: '150px'
 };
 
 const labelStyle = {
@@ -202,8 +212,7 @@ const inputStyle = {
   padding: '8px',
   border: '1px solid #ccc',
   borderRadius: '4px',
-  fontSize: '14px',
-  width: '50%'
+  fontSize: '14px'
 };
 
 const buttonStyle = {
@@ -215,11 +224,7 @@ const buttonStyle = {
   cursor: 'pointer',
   fontSize: '16px',
   marginTop: '10px',
-  width:'150px'
-};
-
-buttonStyle[':hover'] = {
-  backgroundColor: 'green'
+  flex: '1 1 150px'
 };
 
 export default Orders;

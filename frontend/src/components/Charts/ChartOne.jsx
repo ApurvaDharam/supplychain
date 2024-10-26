@@ -171,8 +171,8 @@ const ChartOne = () => {
           </div>
         </div>
 
-        <div className="flex w-full mt-10 max-w-45 justify-end">
-          <div className="inline-flex items-center rounded-md bg-whiter p-1.5 dark:bg-meta-4">
+        <div className="flex w-full mt-10 max-w-45 justify-end flex-wrap sm:flex-nowrap">
+          <div className="inline-flex items-center rounded-md bg-white p-1.5 dark:bg-meta-4">
             {plants.map((plant) => (
               <button
                 key={plant}
@@ -191,13 +191,13 @@ const ChartOne = () => {
       </div>
 
       <div>
-        <div id="chartOne" className="-ml-5">
+        <div id="chartOne" className="-ml-5 mt-5">
           {!loading ? (
             <ReactApexChart
               options={{ ...options, xaxis: { ...options.xaxis, categories: state.categories } }}
               series={state.series}
               type="line"
-              height={350}
+              height={window.innerWidth < 768 ? 250 : 350} // Adjust chart height based on screen width
             />
           ) : (
             <p>Loading...</p>
