@@ -171,8 +171,8 @@ const ChartOne = () => {
           </div>
         </div>
 
-        <div className="flex w-full mt-10 max-w-45 justify-end flex-wrap sm:flex-nowrap">
-          <div className="inline-flex items-center rounded-md bg-white p-1.5 dark:bg-meta-4">
+        <div className="flex w-full mt-10 max-w-45 justify-end flex-wrap gap-2">
+          <div className="inline-flex items-center rounded-md bg-white p-1.5 dark:bg-meta-4 flex-wrap">
             {plants.map((plant) => (
               <button
                 key={plant}
