@@ -171,13 +171,13 @@ const ChartOne = () => {
           </div>
         </div>
 
-        <div className="flex w-full mt-10 max-w-45 justify-end flex-wrap gap-2">
+        <div className="flex w-full mt-5 sm:mt-0 sm:w-auto justify-center flex-wrap gap-2">
           <div className="inline-flex items-center rounded-md bg-white p-1.5 dark:bg-meta-4 flex-wrap">
             {plants.map((plant) => (
               <button
                 key={plant}
                 onClick={() => handlePlantChange(plant)}
-                className={`rounded py-2 px-4 text-xs font-medium w-28 text-center mx-1 transition-colors ${
+                className={`rounded py-2 px-4 text-xs font-medium text-center mx-1 mb-2 sm:mb-0 w-full sm:w-28 transition-colors ${
                   selectedPlant === plant
                     ? 'bg-primary text-white'
                     : 'bg-white text-black hover:bg-primary hover:text-white'
