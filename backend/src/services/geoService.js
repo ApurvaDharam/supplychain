@@ -8,6 +8,9 @@ const geocodeDestination = async (destination) => {
         q: destination,
         format: 'json',
         limit: 1
+      },
+      headers: {
+        'User-Agent': 'YourAppName/1.0 (your-email@example.com)'
       }
     });
 
