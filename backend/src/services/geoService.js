@@ -18,6 +18,8 @@ const geocodeDestination = async (destination) => {
       throw new Error('No location found for the provided destination');
     }
   } catch (err) {
+    //throw new Error('Error fetching geocode data');
+    console.error('Error fetching geocode data:', err.message || err);
     throw new Error('Error fetching geocode data');
   }
 };
