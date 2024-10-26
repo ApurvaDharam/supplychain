@@ -10,7 +10,7 @@ const geocodeDestination = async (destination) => {
         limit: 1
       },
       headers: {
-        'User-Agent': 'YourAppName/1.0 (your-email@example.com)'
+        'User-Agent': 'SupplyChainIQ (aadharam2004@gmail.com)'
       }
     });
 
